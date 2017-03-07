@@ -56,6 +56,7 @@ public class Probl1 {
         
         
         problem.match();
+        problem.print();
         
     }
         

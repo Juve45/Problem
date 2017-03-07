@@ -84,8 +84,63 @@ import java.util.TreeSet;
             return true;
         }
         
+        
+        public void print()
+        {
+            for(int i=0;i<nrProiecte;i++)
+            {
+                System.out.print("Proiect nr:");
+                System.out.println(i);
+                System.out.println(projectList.get(i).toString());
+                System.out.println("=====");
+                for(Student st:projectList.get(i).getStudents())
+                {
+                    System.out.println(st.getNume());
+                }
+                System.out.println("=======================");
+            }
+        }
+        
         public boolean match()
         {
+            LinkedList<Student> pendingStudents = new LinkedList<>(studentList);
+            
+            while(!pendingStudents.isEmpty())
+            {
+                Student cStudent = pendingStudents.poll();
+                ArrayList<Project>pList = cStudent.getPreferences();
+                
+                for(int i=0;i<pList.size();i++)
+                {
+                    if(cStudent.isMatched())
+                        break;
+                    
+                    if(!pList.get(i).isFullyMatched())
+                    {
+                        pList.get(i).addStudent(cStudent);
+                        cStudent.assignProject(pList.get(i));
+                        break;
+                    }
+                    else{
+                        
+                        System.out.println(pList.get(i).toString());
+                        Student counterStudent = pList.get(i).worstStudent();
+                        if(pList.get(i).score(counterStudent) < pList.get(i).score(cStudent))
+                        {
+                            counterStudent.deassignProject();
+                            pendingStudents.add(counterStudent);
+                            cStudent.assignProject(pList.get(i));
+                            pList.get(i).removeStudent(counterStudent);
+                            pList.get(i).addStudent(cStudent);
+                        }
+                    }
+                }
+             
+            }
+            
+            return true;
+            
+            /*
             LinkedList <Project> pendingProjects;
             pendingProjects = new LinkedList<Project>(projectList);
             
@@ -127,7 +182,7 @@ import java.util.TreeSet;
                 }
             }
             return true;
-                
+              */  
         }
             
     }

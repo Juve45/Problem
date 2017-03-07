@@ -166,6 +166,27 @@ public class Project
         myStudents.remove(stud);
     }
     
+    public ArrayList<Student> getStudents()
+    {
+        return myStudents;
+    }
+    
+    public Student worstStudent()
+    {
+        for(int i=myStudentPreferences.size()-1;i>=0;i--)
+        {
+            
+            if(myStudentPreferences.get(i).isMatched() && myStudentPreferences.get(i).getProject().equals(this))
+                return myStudentPreferences.get(i);
+        }
+        return null;
+    }
+    
+    public int score(Student student)
+    {
+        return myStudentPreferences.size() - myStudentPreferences.indexOf(student);
+    }
+    
     public int studentCount()
     {
         return myStudents.size();
