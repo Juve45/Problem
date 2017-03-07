@@ -5,7 +5,14 @@
  */
 package probl1;
 
+import java.util.AbstractSet;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  *
@@ -77,11 +84,50 @@ import java.util.ArrayList;
             return true;
         }
         
-        public void match()
+        public boolean match()
         {
+            LinkedList <Project> pendingProjects;
+            pendingProjects = new LinkedList<Project>(projectList);
             
+            System.out.println(pendingProjects.size());
             
-            
+            while(!pendingProjects.isEmpty())
+            {
+                Project curentProject = pendingProjects.poll();
+                //System.out.println(curentProject.toString());
+                
+                ArrayList<Student> pref = curentProject.getPreferences();
+                System.out.println(pref.size());
+                
+                for(int i=0;i<pref.size();i++)
+                {
+                    Student proposeTo = pref.get(i);
+                    if(!proposeTo.isMatched())
+                    {
+                        proposeTo.assignProject(curentProject);
+                        curentProject.addStudent(proposeTo);
+                    }
+                    else{
+                        if(proposeTo.projectScore(curentProject) > proposeTo.projectScore(proposeTo.getProject()))
+                        {
+                            proposeTo.getProject().removeStudent(proposeTo);
+                            pendingProjects.add(proposeTo.getProject());
+                            proposeTo.deassignProject();
+                            proposeTo.assignProject(curentProject);
+                        }
+                    }
+                    
+                    if(curentProject.isFullyMatched())
+                        break;
+                }
+                if(!curentProject.isFullyMatched())
+                {
+                    System.err.println("Nu se poate gasi un Stable Matching");
+                    return false;
+                }
+            }
+            return true;
+                
         }
             
     }

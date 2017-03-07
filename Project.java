@@ -27,6 +27,7 @@ public class Project
      * lista de preferinte a proiectului
      */
     private ArrayList<Student> myStudentPreferences;
+    private ArrayList<Student> myStudents;
     
     /**
      *
@@ -46,6 +47,7 @@ public class Project
         this.capacitate=id_capacitate;
         this.nume=id_nume;
         myStudentPreferences = new ArrayList<>();
+        myStudents = new ArrayList<>();
     }
     
     /**
@@ -114,6 +116,12 @@ public class Project
 
     }
     
+    public void removePreferences(Student student)
+    {
+        myStudentPreferences.remove(student);
+    }
+        
+    
     /**
      * 
      * @return lista de preferinte
@@ -137,7 +145,7 @@ public class Project
         stringBuilder.append(new StringBuilder (this.capacitate));
         stringBuilder.append(new StringBuilder ("\n"));
          stringBuilder.append(new StringBuilder ("Preferintele proiectului: "));
-        for(i=0;i<=myStudentPreferences.size();i++)
+        for(i=0;i<myStudentPreferences.size();i++)
         {
             stringBuilder.append(new StringBuilder (myStudentPreferences.get(i).getNume()));
              stringBuilder.append(new StringBuilder ("; "));
@@ -147,11 +155,30 @@ public class Project
     return stringBuilder.toString();
 
     }
-
-
-    public boolean equals(Project proiect1,Project proiect2)
+    
+    public void addStudent(Student stud)
     {
-        if(proiect1.capacitate==proiect2.capacitate && proiect1.nume.equals(proiect2.nume) )
+        myStudents.add(stud);
+    }
+    
+    public void removeStudent(Student stud)
+    {
+        myStudents.remove(stud);
+    }
+    
+    public int studentCount()
+    {
+        return myStudents.size();
+    }
+    
+    public boolean isFullyMatched()
+    {
+        return myStudents.size() == capacitate;
+    }
+
+    public boolean equals(Project proiect1)
+    {
+        if(proiect1.capacitate==capacitate && proiect1.nume.equals(nume) )
         {
             return true;
         }

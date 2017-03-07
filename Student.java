@@ -70,6 +70,13 @@ public class Student {
     public String getNume() {
         return this.nume;
     }
+    
+    public boolean equals(Student student)
+    {
+        return email.equals(student.email);
+    }
+    
+    
 
     @Override
     public String toString() {
@@ -101,6 +108,33 @@ public class Student {
 
     public ArrayList<Project> getPreferences() {
         return myPreferences;
+    }
+    
+    public Project getProject()
+    {
+        return myProject;
+    }
+    
+    public boolean isMatched()
+    {
+        return isAssignedProject;
+    }
+    /*
+    public void assignProject(Project p)
+    {
+        isAssignedProject = true;
+        myProject = p;
+    }*/
+    
+    public void deassignProject()
+    {
+        isAssignedProject = false;
+        myProject = null;
+    }
+    
+    public int projectScore(Project project)
+    {
+        return myPreferences.size() - myPreferences.indexOf(project);
     }
 
     public void setPreferences(Project... prefList) {
